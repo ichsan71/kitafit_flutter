@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "732705692282",
-    "project_id": "kitafit-c0a1e",
-    "storage_bucket": "kitafit-c0a1e.firebasestorage.app"
+    "project_number": "633070267511",
+    "project_id": "kitafit-ba016",
+    "storage_bucket": "kitafit-ba016.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:732705692282:android:01a17e0100d74105a439c3",
+        "mobilesdk_app_id": "1:633070267511:android:8f7d07dcd52ef9957a2a72",
         "android_client_info": {
           "package_name": "com.example.todo_clean_bloc"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBIo8Q-5HReUSH37K6QH_aYSCFpoHsuqRQ"
+          "current_key": "AIzaSyCHq9Q0c_0OaseGURo81fxp0-NblL-VY-Y"
         }
       ],
       "services": {

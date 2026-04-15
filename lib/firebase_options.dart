@@ -41,46 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC-iy2sY7Il-BKLfavVrEJ3aENaILhnoso',
-    appId: '1:732705692282:web:4ce77be27400f11da439c3',
-    messagingSenderId: '732705692282',
-    projectId: 'kitafit-c0a1e',
-    authDomain: 'kitafit-c0a1e.firebaseapp.com',
-    storageBucket: 'kitafit-c0a1e.firebasestorage.app',
+    apiKey: 'AIzaSyCe8oNE8HR7iUtOl-diIxHw8v_d7fXJLYg',
+    appId: '1:633070267511:web:9467321690498b1e7a2a72',
+    messagingSenderId: '633070267511',
+    projectId: 'kitafit-ba016',
+    authDomain: 'kitafit-ba016.firebaseapp.com',
+    storageBucket: 'kitafit-ba016.firebasestorage.app',
+    measurementId: 'G-S81VMLHY3S',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBIo8Q-5HReUSH37K6QH_aYSCFpoHsuqRQ',
-    appId: '1:732705692282:android:01a17e0100d74105a439c3',
-    messagingSenderId: '732705692282',
-    projectId: 'kitafit-c0a1e',
-    storageBucket: 'kitafit-c0a1e.firebasestorage.app',
+    apiKey: 'AIzaSyCHq9Q0c_0OaseGURo81fxp0-NblL-VY-Y',
+    appId: '1:633070267511:android:8f7d07dcd52ef9957a2a72',
+    messagingSenderId: '633070267511',
+    projectId: 'kitafit-ba016',
+    storageBucket: 'kitafit-ba016.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCMedUfCfpoCkAXH7bbZd_7r3-vicGeS2A',
-    appId: '1:732705692282:ios:338fd351892da44ba439c3',
-    messagingSenderId: '732705692282',
-    projectId: 'kitafit-c0a1e',
-    storageBucket: 'kitafit-c0a1e.firebasestorage.app',
+    apiKey: 'AIzaSyA8h6B1sf08ya2E4pcqvI3iLRSDbGfrm88',
+    appId: '1:633070267511:ios:10548f8b163671cb7a2a72',
+    messagingSenderId: '633070267511',
+    projectId: 'kitafit-ba016',
+    storageBucket: 'kitafit-ba016.firebasestorage.app',
     iosBundleId: 'com.example.todoCleanBloc',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCMedUfCfpoCkAXH7bbZd_7r3-vicGeS2A',
-    appId: '1:732705692282:ios:338fd351892da44ba439c3',
-    messagingSenderId: '732705692282',
-    projectId: 'kitafit-c0a1e',
-    storageBucket: 'kitafit-c0a1e.firebasestorage.app',
+    apiKey: 'AIzaSyA8h6B1sf08ya2E4pcqvI3iLRSDbGfrm88',
+    appId: '1:633070267511:ios:10548f8b163671cb7a2a72',
+    messagingSenderId: '633070267511',
+    projectId: 'kitafit-ba016',
+    storageBucket: 'kitafit-ba016.firebasestorage.app',
     iosBundleId: 'com.example.todoCleanBloc',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyC-iy2sY7Il-BKLfavVrEJ3aENaILhnoso',
-    appId: '1:732705692282:web:2b326332d6306024a439c3',
-    messagingSenderId: '732705692282',
-    projectId: 'kitafit-c0a1e',
-    authDomain: 'kitafit-c0a1e.firebaseapp.com',
-    storageBucket: 'kitafit-c0a1e.firebasestorage.app',
+    apiKey: 'AIzaSyCe8oNE8HR7iUtOl-diIxHw8v_d7fXJLYg',
+    appId: '1:633070267511:web:8f26710cf5e9f2677a2a72',
+    messagingSenderId: '633070267511',
+    projectId: 'kitafit-ba016',
+    authDomain: 'kitafit-ba016.firebaseapp.com',
+    storageBucket: 'kitafit-ba016.firebasestorage.app',
+    measurementId: 'G-FCMYGWH954',
   );
+
 }

@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCMedUfCfpoCkAXH7bbZd_7r3-vicGeS2A</string>
+	<string>AIzaSyA8h6B1sf08ya2E4pcqvI3iLRSDbGfrm88</string>
 	<key>GCM_SENDER_ID</key>
-	<string>732705692282</string>
+	<string>633070267511</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.todoCleanBloc</string>
 	<key>PROJECT_ID</key>
-	<string>kitafit-c0a1e</string>
+	<string>kitafit-ba016</string>
 	<key>STORAGE_BUCKET</key>
-	<string>kitafit-c0a1e.firebasestorage.app</string>
+	<string>kitafit-ba016.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:732705692282:ios:338fd351892da44ba439c3</string>
+	<string>1:633070267511:ios:10548f8b163671cb7a2a72</string>
 </dict>
 </plist>
