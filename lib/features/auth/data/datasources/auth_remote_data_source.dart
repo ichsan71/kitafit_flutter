@@ -1,9 +1,10 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo_clean_bloc/core/error/exception.dart';
 import 'package:todo_clean_bloc/features/auth/data/models/user_model.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Session? get currentUserSession => null;
+  User? get currentUser => null;
   Future<UserModel> signInWithEmailAndPassword({
     required String email,
     required String password,
@@ -21,11 +22,16 @@ abstract interface class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final SupabaseClient supabaseClient;
-  AuthRemoteDataSourceImpl({required this.supabaseClient});
+  final FirebaseAuth firebaseAuth;
+  final FirebaseFirestore firebaseFirestore;
+
+  AuthRemoteDataSourceImpl({
+    required this.firebaseAuth,
+    required this.firebaseFirestore,
+  });
 
   @override
-  Session? get currentUserSession => supabaseClient.auth.currentSession;
+  User? get currentUser => firebaseAuth.currentUser;
 
   @override
   Future<UserModel> signInWithEmailAndPassword({
@@ -33,14 +39,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      final response = await supabaseClient.auth.signInWithPassword(
+      final response = await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       if (response.user == null) {
         throw ServerException('User tidak ditemukan');
       }
-      return UserModel.fromJson(response.user!.toJson());
+      return UserModel(
+        id: response.user!.uid,
+        email: response.user!.email ?? '',
+        name: response.user!.displayName ?? '',
+      );
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -53,25 +63,42 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      final response = await supabaseClient.auth.signUp(
+      final response = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
-        data: {'name': name},
       );
       if (response.user == null) {
         throw ServerException('User tidak ditemukan');
       }
-      return UserModel.fromJson(response.user!.toJson());
+
+      // Update user profile with name
+      await response.user!.updateDisplayName(name);
+
+      // Create user profile document in Firestore
+      await firebaseFirestore
+          .collection('profiles')
+          .doc(response.user!.uid)
+          .set({
+            'id': response.user!.uid,
+            'name': name,
+            'email': email,
+            'createdAt': FieldValue.serverTimestamp(),
+          });
+
+      return UserModel(
+        id: response.user!.uid,
+        email: response.user!.email ?? '',
+        name: name,
+      );
     } catch (e) {
       throw ServerException(e.toString());
     }
   }
 
   @override
-  Future<void> signOut() {
+  Future<void> signOut() async {
     try {
-      supabaseClient.auth.signOut();
-      return Future.value();
+      await firebaseAuth.signOut();
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -80,14 +107,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel?> getCurrentUserData() async {
     try {
-      if (currentUserSession != null) {
-        final userData = await supabaseClient
-            .from('profiles')
-            .select()
-            .eq('id', currentUserSession!.user.id);
-        return UserModel.fromJson(
-          userData.first,
-        ).copyWith(email: currentUserSession!.user.email);
+      if (currentUser != null) {
+        final userData = await firebaseFirestore
+            .collection('profiles')
+            .doc(currentUser!.uid)
+            .get();
+
+        if (userData.exists) {
+          final data = userData.data() ?? {};
+          return UserModel(
+            id: data['id'] ?? currentUser!.uid,
+            email: currentUser!.email ?? '',
+            name: data['name'] ?? '',
+          );
+        }
       }
 
       return null;

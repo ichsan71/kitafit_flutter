@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_clean_bloc/core/common/widgets/loader.dart';
+import 'package:todo_clean_bloc/core/navigation/router/app_router.dart';
 import 'package:todo_clean_bloc/core/theme/app_pallate.dart';
 import 'package:todo_clean_bloc/core/utils/show_snackbar.dart';
 import 'package:todo_clean_bloc/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:todo_clean_bloc/features/auth/presentation/pages/signup_page.dart';
 import 'package:todo_clean_bloc/features/auth/presentation/widgets/auth_button.dart';
 import 'package:todo_clean_bloc/features/auth/presentation/widgets/auth_field.dart';
 
@@ -45,7 +46,7 @@ class SigninPageState extends State<SigninPage> {
             "Login successful",
             type: SnackBarType.success,
           );
-          // Navigator.pushReplacementNamed(context, '/home');
+          context.go(AppRouter.dashboard);
         }
       },
       builder: (context, state) {
@@ -197,7 +198,7 @@ class SigninPageState extends State<SigninPage> {
                         // Sign Up Redirect
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, SignupPage.route());
+                            context.go(AppRouter.signup);
                           },
                           child: Center(
                             child: RichText(

@@ -27,7 +27,7 @@ class DashboardBanner extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             child: Image.asset(
               'assets/images/hero.png',
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               width: double.infinity,
               height: double.infinity,
             ),

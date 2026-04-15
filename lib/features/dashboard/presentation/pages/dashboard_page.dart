@@ -9,7 +9,6 @@ import 'package:todo_clean_bloc/features/dashboard/presentation/widgets/dashboar
 import 'package:todo_clean_bloc/core/common/widgets/section_title.dart';
 import 'package:todo_clean_bloc/features/dashboard/presentation/widgets/dashboard_list_card.dart';
 
-
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
@@ -56,9 +55,6 @@ class DashboardPage extends StatelessWidget {
           ],
         ),
       ),
-      // bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }
-
-// make list card that can be reused with title and list of cards

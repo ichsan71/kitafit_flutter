@@ -1,12 +1,13 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_clean_bloc/core/common/widgets/loader.dart';
+import 'package:todo_clean_bloc/core/navigation/router/app_router.dart';
 import 'package:todo_clean_bloc/core/theme/app_pallate.dart';
 import 'package:todo_clean_bloc/core/utils/show_snackbar.dart';
 import 'package:todo_clean_bloc/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:todo_clean_bloc/features/auth/presentation/widgets/auth_button.dart';
 import 'package:todo_clean_bloc/features/auth/presentation/widgets/auth_field.dart';
-import 'package:todo_clean_bloc/features/auth/presentation/pages/signin_page.dart';
 import 'package:todo_clean_bloc/features/auth/presentation/widgets/auth_appbar.dart';
 
 class SignupPage extends StatefulWidget {
@@ -45,7 +46,7 @@ class _SignupPageState extends State<SignupPage> {
             type: SnackBarType.success,
           );
           // Navigasi ke signin page
-          Navigator.pushReplacement(context, SigninPage.route());
+          context.go(AppRouter.signin);
         } else if (state is AuthFailure) {
           // Signup gagal
           debugPrint('Sign Up UI: Failure state - ${state.errorMessage}');
@@ -151,7 +152,7 @@ class _SignupPageState extends State<SignupPage> {
 
                       GestureDetector(
                         onTap: () {
-                          Navigator.pop(context, SigninPage.route());
+                          context.go(AppRouter.signin);
                         },
                         child: Center(
                           child: RichText(

@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_clean_bloc/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:todo_clean_bloc/core/secrets/app_secrets.dart';
+import 'package:todo_clean_bloc/core/navigation/bloc/navigation_bloc.dart';
 import 'package:todo_clean_bloc/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:todo_clean_bloc/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:todo_clean_bloc/features/auth/domain/repository/auth_repository.dart';
@@ -14,21 +15,28 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
-  final supabase = await Supabase.initialize(
-    url: AppSecrets.supabaseUrl,
-    anonKey: AppSecrets.supabaseAnonKey,
-  );
-  serviceLocator.registerLazySingleton(() => supabase.client);
+  _initNavigation();
+
+  // Register Firebase services
+  serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
+  serviceLocator.registerLazySingleton(() => FirebaseFirestore.instance);
 
   // Register AppUserCubit in core layer
   serviceLocator.registerLazySingleton(() => AppUserCubit());
+}
+
+void _initNavigation() {
+  serviceLocator.registerLazySingleton(() => NavigationBloc());
 }
 
 void _initAuth() {
   serviceLocator
     // Data source
     ..registerFactory<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(supabaseClient: serviceLocator()),
+      () => AuthRemoteDataSourceImpl(
+        firebaseAuth: serviceLocator(),
+        firebaseFirestore: serviceLocator(),
+      ),
     )
     // Repository
     ..registerFactory<AuthRepository>(
