@@ -4,16 +4,19 @@ import 'package:todo_clean_bloc/core/theme/app_pallate.dart';
 class DashboardMenuItem extends StatelessWidget {
   final IconData icon;
   final String label;
+  final VoidCallback? onTap;
 
-  const DashboardMenuItem({super.key, required this.icon, required this.label});
+  const DashboardMenuItem({
+    super.key,
+    required this.icon,
+    required this.label,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Tambahkan action di sini nanti
-        debugPrint('Tapped: $label');
-      },
+      onTap: onTap ?? () => debugPrint('Tapped: $label'),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

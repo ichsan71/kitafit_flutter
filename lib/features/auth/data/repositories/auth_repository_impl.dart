@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:todo_clean_bloc/core/error/exception.dart';
 import 'package:todo_clean_bloc/core/error/failure.dart';
 import 'package:todo_clean_bloc/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -46,6 +46,11 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       ),
     );
+  }
+
+  @override
+  Future<Either<Failure, User>> signInWithGoogle() async {
+    return _getUser(() async => await remoteDataSource.signInWithGoogle());
   }
 
   Future<Either<Failure, User>> _getUser(Future<User> Function() fn) async {

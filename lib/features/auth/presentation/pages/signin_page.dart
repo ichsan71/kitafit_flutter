@@ -31,19 +31,31 @@ class SigninPageState extends State<SigninPage> {
     super.dispose();
   }
 
+  void _onSignIn() {
+    if (formKey.currentState!.validate()) {
+      context.read<AuthBloc>().add(
+            AuthSignin(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+            ),
+          );
+    }
+  }
+
+  void _onGoogleSignIn() {
+    context.read<AuthBloc>().add(AuthSignInWithGoogle());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
-          // Show error message
-          debugPrint('Sign In UI: Failure state - ${state.errorMessage}');
           showModernSnackBar(context, state.errorMessage);
         } else if (state is AuthSuccess) {
-          // Navigate to home or another page
           showModernSnackBar(
             context,
-            "Login successful",
+            'Login berhasil',
             type: SnackBarType.success,
           );
           context.go(AppRouter.dashboard);
@@ -54,10 +66,6 @@ class SigninPageState extends State<SigninPage> {
           backgroundColor: AppPalette.background,
           body: Stack(
             children: [
-              // Loader overlay - hanya tampil saat loading
-              if (state is AuthLoading) const Loader(),
-
-              // Konten utama - selalu ditampilkan
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: SingleChildScrollView(
@@ -67,7 +75,6 @@ class SigninPageState extends State<SigninPage> {
                       children: [
                         const SizedBox(height: 20),
 
-                        // Icon aplikasi
                         Image.asset(
                           'assets/images/icon_kitafit.png',
                           height: 200,
@@ -75,7 +82,6 @@ class SigninPageState extends State<SigninPage> {
                         ),
                         const SizedBox(height: 8),
 
-                        // Form Container
                         Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
@@ -85,7 +91,6 @@ class SigninPageState extends State<SigninPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              // Email Field
                               const Text(
                                 'Email',
                                 style: TextStyle(
@@ -96,13 +101,12 @@ class SigninPageState extends State<SigninPage> {
                               ),
                               const SizedBox(height: 8),
                               AuthField(
-                                hintText: "Email",
+                                hintText: 'Email',
                                 icon: const Icon(Icons.person_outline),
                                 controller: _emailController,
                               ),
                               const SizedBox(height: 16),
 
-                              // Password Field
                               const Text(
                                 'Password',
                                 style: TextStyle(
@@ -113,14 +117,13 @@ class SigninPageState extends State<SigninPage> {
                               ),
                               const SizedBox(height: 8),
                               AuthField(
-                                hintText: "Password",
+                                hintText: 'Password',
                                 icon: const Icon(Icons.lock_outline),
                                 controller: _passwordController,
                                 isPassword: true,
                               ),
                               const SizedBox(height: 16),
 
-                              // Remember Me & Forgot Password
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -139,9 +142,8 @@ class SigninPageState extends State<SigninPage> {
                                           },
                                           activeColor: const Color(0xFF5DDCD3),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              4,
-                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(4),
                                           ),
                                         ),
                                       ),
@@ -157,7 +159,7 @@ class SigninPageState extends State<SigninPage> {
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      // Handle forgot password
+                                      // TODO: implement forgot password
                                     },
                                     child: const Text(
                                       'Lupa kata sandi?',
@@ -172,42 +174,25 @@ class SigninPageState extends State<SigninPage> {
                               ),
                               const SizedBox(height: 20),
 
-                              // Login Button
                               AuthButton(
                                 text: 'Masuk',
-                                onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    debugPrint('Form is valid');
-                                    context.read<AuthBloc>().add(
-                                      AuthSignin(
-                                        email: _emailController.text.trim(),
-                                        password: _passwordController.text
-                                            .trim(),
-                                      ),
-                                    );
-                                  } else {
-                                    debugPrint('Form is invalid');
-                                  }
-                                },
+                                onPressed: _onSignIn,
                               ),
                             ],
                           ),
                         ),
                         const SizedBox(height: 16),
 
-                        // Sign Up Redirect
                         GestureDetector(
-                          onTap: () {
-                            context.go(AppRouter.signup);
-                          },
+                          onTap: () => context.go(AppRouter.signup),
                           child: Center(
                             child: RichText(
                               text: TextSpan(
-                                text: "Tidak mempunyai akun? ",
+                                text: 'Tidak mempunyai akun? ',
                                 style: Theme.of(context).textTheme.titleSmall,
                                 children: [
                                   TextSpan(
-                                    text: "Daftar",
+                                    text: 'Daftar',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall
@@ -223,14 +208,10 @@ class SigninPageState extends State<SigninPage> {
                         ),
                         const SizedBox(height: 20),
 
-                        // Divider
                         Row(
                           children: [
                             Expanded(
-                              child: Container(
-                                height: 1,
-                                color: Colors.grey[400],
-                              ),
+                              child: Container(height: 1, color: Colors.grey[400]),
                             ),
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -243,74 +224,16 @@ class SigninPageState extends State<SigninPage> {
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                height: 1,
-                                color: Colors.grey[400],
-                              ),
+                              child: Container(height: 1, color: Colors.grey[400]),
                             ),
                           ],
                         ),
                         const SizedBox(height: 20),
 
-                        // Google Sign In Button
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.grey[300]!),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.network(
-                                'https://www.google.com/favicon.ico',
-                                width: 24,
-                                height: 24,
-                              ),
-                              const SizedBox(width: 12),
-                              const Text(
-                                'Masuk dengan Google',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-
-                        // Facebook Sign In Button
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.grey[300]!),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.network(
-                                'https://www.facebook.com/favicon.ico',
-                                width: 24,
-                                height: 24,
-                              ),
-                              const SizedBox(width: 12),
-                              const Text(
-                                'Masuk dengan Facebook',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
-                          ),
+                        _SocialLoginButton(
+                          label: 'Masuk dengan Google',
+                          iconUrl: 'https://www.google.com/favicon.ico',
+                          onTap: _onGoogleSignIn,
                         ),
 
                         const SizedBox(height: 30),
@@ -319,10 +242,55 @@ class SigninPageState extends State<SigninPage> {
                   ),
                 ),
               ),
+
+              if (state is AuthLoading) const Loader(),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class _SocialLoginButton extends StatelessWidget {
+  final String label;
+  final String iconUrl;
+  final VoidCallback onTap;
+
+  const _SocialLoginButton({
+    required this.label,
+    required this.iconUrl,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.grey[300]!),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.network(iconUrl, width: 24, height: 24),
+            const SizedBox(width: 12),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
