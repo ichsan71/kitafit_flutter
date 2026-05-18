@@ -23,3 +23,23 @@ final class AuthSignOut extends AuthEvent {}
 final class AuthSignInWithGoogle extends AuthEvent {}
 
 final class AuthCheckCurrentUser extends AuthEvent {}
+
+final class AuthExchangeSanctumToken extends AuthEvent {}
+
+final class AuthLoadProfile extends AuthEvent {}
+
+final class AuthUpdateProfile extends AuthEvent {
+  final String? name;
+  final String? phone;
+  final String? password;
+  final String? passwordConfirmation;
+  final String? avatarPath;
+
+  AuthUpdateProfile({
+    this.name,
+    this.phone,
+    this.password,
+    this.passwordConfirmation,
+    this.avatarPath,
+  });
+}

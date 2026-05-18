@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -199,19 +200,7 @@ class _LoggedInProfileView extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: const BoxDecoration(
-                        color: AppPalette.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.white,
-                      ),
-                    ),
+                    _buildAvatar(user.avatar),
                     const SizedBox(height: 16),
                     Text(
                       user.name.isNotEmpty ? user.name : 'Pengguna',
@@ -241,7 +230,7 @@ class _LoggedInProfileView extends StatelessWidget {
                     _MenuItem(
                       icon: Icons.person_outline,
                       title: 'Edit Profil',
-                      onTap: () {},
+                      onTap: () => context.push(AppRouter.profileEdit),
                     ),
                     _MenuItem(
                       icon: Icons.settings_outlined,
@@ -297,6 +286,31 @@ class _LoggedInProfileView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAvatar(String? avatarUrl) {
+    if (avatarUrl != null && avatarUrl.isNotEmpty) {
+      return CachedNetworkImage(
+        imageUrl: avatarUrl,
+        imageBuilder: (context, imageProvider) =>
+            CircleAvatar(radius: 40, backgroundImage: imageProvider),
+        placeholder: (context, url) => const CircleAvatar(
+          radius: 40,
+          backgroundColor: AppPalette.primary,
+          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+        ),
+        errorWidget: (context, url, error) => const CircleAvatar(
+          radius: 40,
+          backgroundColor: AppPalette.primary,
+          child: Icon(Icons.person, size: 40, color: Colors.white),
+        ),
+      );
+    }
+    return const CircleAvatar(
+      radius: 40,
+      backgroundColor: AppPalette.primary,
+      child: Icon(Icons.person, size: 40, color: Colors.white),
     );
   }
 }

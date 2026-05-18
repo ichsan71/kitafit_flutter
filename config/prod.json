@@ -1,0 +1,5 @@
+{
+  "API_BASE_URL": "https://api.kitafit.com/api/v1",
+  "ENABLE_LOGGING": "false",
+  "ENV": "prod"
+}

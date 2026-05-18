@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_clean_bloc/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:todo_clean_bloc/core/common/widgets/login_prompt_sheet.dart';
+import 'package:todo_clean_bloc/core/navigation/router/app_router.dart';
 import 'package:todo_clean_bloc/features/dashboard/presentation/widgets/dashboard_menu_item.dart';
 
 class DashboardMenuGrid extends StatelessWidget {
@@ -12,16 +14,23 @@ class DashboardMenuGrid extends StatelessWidget {
     (icon: Icons.menu_book_outlined, label: 'Wawasan', requiresAuth: true),
     (icon: Icons.quiz_outlined, label: 'Kuis', requiresAuth: true),
     (icon: Icons.video_library_outlined, label: 'Video', requiresAuth: true),
-    (icon: Icons.calendar_today_outlined, label: 'Jadwal Literasi', requiresAuth: true),
+    (
+      icon: Icons.calendar_today_outlined,
+      label: 'Jadwal Literasi',
+      requiresAuth: true,
+    ),
     (icon: Icons.bookmark_outline, label: 'Favorit', requiresAuth: true),
     (icon: Icons.chat_bubble_outline, label: 'Chat Ahli', requiresAuth: true),
-    (icon: Icons.library_books_outlined, label: 'Perpus Fit', requiresAuth: true),
+    (
+      icon: Icons.library_books_outlined,
+      label: 'Perpus Fit',
+      requiresAuth: true,
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn =
-        context.watch<AppUserCubit>().state is AppUserLoggedIn;
+    final isLoggedIn = context.watch<AppUserCubit>().state is AppUserLoggedIn;
 
     return GridView.count(
       shrinkWrap: true,
@@ -33,7 +42,26 @@ class DashboardMenuGrid extends StatelessWidget {
       children: _menuItems.map((item) {
         final onTap = item.requiresAuth && !isLoggedIn
             ? () => showLoginPromptSheet(context, featureName: item.label)
-            : () => debugPrint('Tapped: ${item.label}');
+            : () {
+                switch (item.label) {
+                  case 'Artikel':
+                    context.push(AppRouter.articles);
+                  case 'Wawasan':
+                    context.push(AppRouter.wawasan);
+                  case 'Kuis':
+                    context.push(AppRouter.quizzes);
+                  case 'Video':
+                    context.push(AppRouter.videos);
+                  case 'Jadwal Literasi':
+                    context.push(AppRouter.schedules);
+                  case 'Favorit':
+                    context.push(AppRouter.favorites);
+                  case 'Chat Ahli':
+                    context.push(AppRouter.experts);
+                  default:
+                    debugPrint('Tapped: ${item.label}');
+                }
+              };
 
         return DashboardMenuItem(
           icon: item.icon,
